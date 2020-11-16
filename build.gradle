@@ -77,8 +77,13 @@ allprojects {
         }
     }
 
-    task runNewTestsRepeatedly(type: Test) {
-        dependsOn << (1..9).collect { "runNewTests$it" }
+    task runNewTestsRepeatedly(type: Task) {
+        group = "verification"
+        if (existedTests.size() != 0) {
+            dependsOn << (1..9).collect { "runNewTests$it" }
+        } else {
+            logger.warn("Verifying new tests skipped!")
+        }
     }
 
     dependencies {
